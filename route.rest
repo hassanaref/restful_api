@@ -1,0 +1,30 @@
+GET http://localhost:3000
+
+###
+
+GET http://localhost:3000/qqq
+###
+
+POST http://localhost:3000/
+Content-Type: application/json
+
+{
+    "email":"qqq@qqq.com",
+    "username":"kkk",  
+     "name":"qqq",
+     "company":"elqqq",
+     "address":"qqq,qqq.qqq"
+}
+
+###
+
+DELETE http://localhost:3000/kkk
+
+###
+
+PATCH http://localhost:3000/kkk
+Content-Type: application/json
+
+{
+    "email":"wawawawa"
+}
