@@ -2,7 +2,7 @@ GET http://localhost:3000
 
 ###
 
-GET http://localhost:3000/qqq
+GET http://localhost:3000/kkk
 ###
 
 POST http://localhost:3000/
@@ -10,10 +10,10 @@ Content-Type: application/json
 
 {
     "email":"qqq@qqq.com",
-    "username":"kkk",  
-     "name":"qqq",
-     "company":"elqqq",
-     "address":"qqq,qqq.qqq"
+    "username":"kkk",
+    "name":"qqq",
+    "company":"elqqq",
+    "address":"qqq,qqq.qqq"      
 }
 
 ###
@@ -26,5 +26,5 @@ PATCH http://localhost:3000/kkk
 Content-Type: application/json
 
 {
-    "email":"wawawawa"
+    "address":"wa1127999999981aawa"
 }

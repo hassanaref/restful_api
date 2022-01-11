@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-// const fakerData = require('./models/faker-scripts')
+// const fakerData = require('./faker-scripts')
 
 mongoose.connect('mongodb://localhost/users_api')
 const db = mongoose.connection;

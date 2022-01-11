@@ -1,4 +1,5 @@
 const express = require('express');
+const Profiles = require('../models/profile');
 const Users = require('../models/users');
 const router = express.Router();
 
@@ -27,13 +28,16 @@ router.post('/', async(req, res) => {
     const user = new Users({
         email:req.body.email,
         username:req.body.username,
+        })
+    const profile = new Profiles({
         name:req.body.name,
         company:req.body.company,
         address:req.body.address,
-        }
-    )
+    })
     try{
-        const newUser = await user.save()
+        user.profile.push(profile)
+        await Promise.all([user.save(), profile.save()])
+        const newUser = user;
         res.status(201).json(newUser)
     } catch(err) {
         res.status(400).json({ message: err.message })
@@ -50,17 +54,19 @@ router.patch('/:username', getone, async (req, res) => {
         res.user.username = req.body.username
     }
     if (req.body.name != null) {
-    res.user.name = req.body.name
+    res.profile.name = req.body.name
     }
     if (req.body.company != null) {
-    res.user.company = req.body.company
+    res.profile.company = req.body.company
     }
     if (req.body.address != null) {
-    res.user.address = req.body.address
+    res.profile.address = req.body.address
     }
 
     try{
-        const updatedUser = await res.user.save()
+        await res.profile.save();
+        await res.user.save();
+        const updatedUser = await Users.findOne({ username: req.params.username }).populate('profile')
         res.json(updatedUser)
     } catch (err) {
         res.status(400).json({ message: err.message })
@@ -80,15 +86,21 @@ router.delete('/:username', getone, async (req, res) => {
 
 async function getone (req,res,next){
     let user
+    let profile
     try{
-    user = await Users.findOne({ username : req.params.username})   
-    if(user == null){
+    user = await Users.findOne({ username : req.params.username}).populate('profile')
+    profile = await Profiles.findById(user.profile[0]._id)
+    if(user == null && profile == null){
         return res.status(404).json({ message: 'cant find user' })
     } 
     } catch(err){
         return res.status(500).json({ message:err.message })
     }
+    res.profile = profile
+    console.log(user)
     res.user = user
     next()
 }
 module.exports = router
+
+

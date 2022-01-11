@@ -1,5 +1,6 @@
 const faker =require('faker');
 const Users = require('./models/users');
+const profile = require('./models/profile');
 class user {
     constructor (userNames, emails, names, company, address){
 
@@ -16,10 +17,16 @@ do{
     const users = new Users({
         username:classUser.userNames,
         email:classUser.emails,
+    });
+    const profiles = new profile({
         name:classUser.names,
         company:classUser.company,
-        address:classUser.address
-    });
-    const saveuser = users.save();
+        address:classUser.address,
+    })
+
+    users.profile.push(profiles)
+
+    users.save();
+    profiles.save();
     i+=1
 } while(i<100)
